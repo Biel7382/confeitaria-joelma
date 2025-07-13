@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quem Somos - Confeitaria Joelma</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff0f6;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #d6336c;
+      text-align: center;
+      font-size: 2rem;
+      margin-top: 40px;
+      margin-bottom: 30px;
+      border-bottom: 2px dotted #e75480;
+      padding-bottom: 10px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .quem-somos-container {
+      max-width: 900px;
+      margin: 0 auto 60px;
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(215, 83, 133, 0.15);
+    }
+
+    .quem-somos-container .texto {
+      flex: 1;
+      color: #b33a61;
+    }
+
+    .quem-somos-container .texto h3 {
+      color: #d6336c;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .quem-somos-container .texto p {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .quem-somos-container .imagem {
+      flex: 1;
+      text-align: center;
+    }
+
+    .quem-somos-container .imagem img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .frase-especial {
+      text-align: center;
+      font-style: italic;
+      color: #d6336c;
+      font-size: 1.2rem;
+      margin-bottom: 50px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-voltar {
+      display: block;
+      text-align: center;
+      margin: 0 auto 40px;
+      padding: 12px 28px;
+      background-color: #e75480;
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      width: fit-content;
+      transition: background-color 0.3s;
+    }
+
+    .btn-voltar:hover {
+      background-color: #d6336c;
+    }
+
+    @media (max-width: 768px) {
+      .quem-somos-container {
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .quem-somos-container .imagem,
+      .quem-somos-container .texto {
+        flex: none;
+        width: 100%;
+      }
+
+      .quem-somos-container .imagem {
+        margin-bottom: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Quem Somos 💕</h2>
+
+  <div class="quem-somos-container">
+    <div class="texto">
+      <h3>Amor em cada receita</h3>
+      <p>
+       Olá, seja bem-vindos a Doceria (Doces da Joelma) Nossa loja de doces oferece uma variedade de criações, desde bolos e tortas até brigadeiros e bombons. Cada doce é feito com ingredientes selecionados e muito amor, para garantir uma experiência gastronômica inesquecível.
+Localizada no coração de Capão Redondo, nossa Doceria é um refúgio para os amantes de doces,  sempre com produtos frescos e deliciosos, feitos com paixão e dedicação.
+      </p>
+      <p>
+        Nosso compromisso é entregar mais do que um doce — é entregar aconchego, alegria
+        e aquele gostinho de infância que mora no coração.
+      </p>
+    </div>
+    <div class="imagem">
+      <img src="imagens/logo.jpg" alt="Imagem ilustrativa sobre a confeitaria" />
+    </div>
+  </div>
+
+  <p class="frase-especial">“Cada doce feito aqui tem uma pitada de amor e uma colherada de carinho.”</p>
+
+  <a href="index.html" class="btn-voltar">🔼 Voltar para o Início</a>
+  <div class="redes">
+      <a href="https://www.instagram.com/doces.dajoelma/" target="_blank">Instagram</a> |
+      <a href="https://wa.me/5511930432165" target="_blank">WhatsApp</a>
+    </div>
+
+</body>
+</html>

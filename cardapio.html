@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cardápio - Confeitaria Joelma</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff0f6;
+      color: #333;
+      line-height: 1.4;
+      transition: margin-right 0.3s ease;
+    }
+    .menu-fixo {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #ffe6f0;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      z-index: 999;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .menu-fixo a {
+      color: #d6336c;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.95rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+    .menu-fixo a:hover {
+      background-color: #fcddec;
+    }
+    header {
+      padding: 80px 20px 40px;
+      text-align: center;
+      background-image: url('imagens/imagem_fundo.png');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      position: relative;
+    }
+    header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      margin-bottom: 15px;
+      background-color: white;
+      object-fit: cover;
+    }
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    section {
+      padding: 80px 20px 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    section h2 {
+      font-size: 1.6rem;
+      color: #d6336c;
+      border-bottom: 2px dotted #e75480;
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+    }
+    .lista-produtos {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .produto {
+      background: #fff;
+      border: 1px solid #f3c5d5;
+      border-radius: 20px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .produto:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    .produto img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .produto-info {
+      flex: 1;
+      color: #b33a61;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .produto-info h3 {
+      margin: 0 0 5px;
+      color: #d6336c;
+      font-size: 1.1rem;
+    }
+    .produto-info p {
+      margin: 0 0 8px;
+      font-weight: bold;
+    }
+    .produto-info label {
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #d6336c;
+      margin-bottom: 8px;
+    }
+    .produto-info input.quantidade {
+      width: 50px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1.5px solid #e89db2;
+      font-size: 1rem;
+      text-align: center;
+      color: #b33a61;
+      background: #fff0f6;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .produto-info input.quantidade:focus {
+      border-color: #d6336c;
+      box-shadow: 0 0 5px #d6336c88;
+    }
+    /* Botão Adicionar simplificado */
+    .btn-adicionar {
+      padding: 6px 14px;
+      background-color: #d6336c;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      width: fit-content;
+      align-self: start;
+      transition: background-color 0.3s;
+      user-select: none;
+    }
+    .btn-adicionar:hover {
+      background-color: #b02c55;
+    }
+
+    /* Sidebar lateral do carrinho */
+    #sidebar-carrinho {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 320px;
+      height: 100%;
+      background: #fff0f6;
+      box-shadow: -4px 0 12px rgba(214, 51, 108, 0.3);
+      padding: 20px;
+      box-sizing: border-box;
+      z-index: 1500;
+      display: none;
+      flex-direction: column;
+    }
+    #btn-fechar-sidebar {
+      background: transparent;
+      border: none;
+      font-size: 1.4rem;
+      color: #d6336c;
+      align-self: flex-end;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    #sidebar-carrinho h3 {
+      color: #d6336c;
+      margin-top: 0;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    #lista-itens-carrinho {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 5px;
+      margin-bottom: 10px;
+    }
+    #lista-itens-carrinho ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    #lista-itens-carrinho li {
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: #b33a61;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    #lista-itens-carrinho li button {
+      background: transparent;
+      border: none;
+      color: #d6336c;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 900;
+      line-height: 1;
+      transition: color 0.2s;
+      user-select: none;
+    }
+    #lista-itens-carrinho li button:hover {
+      color: #b02c55;
+    }
+    #total-carrinho {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #d6336c;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    #btn-enviar-pedido {
+      background: #d6336c;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      user-select: none;
+      width: 100%;
+    }
+    #btn-enviar-pedido:hover {
+      background-color: #b02c55;
+    }
+
+    /* Campos extras do carrinho */
+    .campo-extra {
+      margin: 10px 0;
+      font-size: 0.95rem;
+      color: #b33a61;
+    }
+    .campo-extra select,
+    .campo-extra input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1.5px solid #e89db2;
+      font-size: 0.95rem;
+      margin-top: 5px;
+      background-color: #fff;
+    }
+
+    /* Botão voltar para index */
+    .btn-voltar-index {
+      display: block;
+      margin: 40px auto 60px;
+      padding: 12px 20px;
+      background: #e89db2;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      width: fit-content;
+      user-select: none;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .menu-fixo {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .produto {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .produto img {
+        width: 100px;
+        height: 100px;
+      }
+      .produto-info {
+        flex: unset;
+      }
+      .btn-adicionar {
+        margin-top: 8px;
+      }
+      /* Sidebar em tela pequena cobre tudo e ocupa 100% */
+      #sidebar-carrinho {
+        width: 100%;
+        right: 0;
+        height: 300px;
+        overflow-y: auto;
+        bottom: 0;
+        top: auto;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<a id="topo"></a>
+
+<nav class="menu-fixo">
+  <a href="#bolos">Bolos de Pote</a>
+  <a href="#vulcoes">Mini Vulcões</a>
+  <a href="#trufas">Trufas</a>
+  <a href="#copos">Copos da Felicidade</a>
+  <a href="#pudim">Pudim</a>
+  <a href="#bombom">Bombom de Uva</a>
+  <a href="#torta">Torta</a>
+</nav>
+
+<header>
+  <img src="imagens/logo.jpg" alt="Logo" />
+  <h1>Cardápio da Confeitaria Joelma 💖</h1>
+</header>
+
+<!-- Seção Bolos de Pote -->
+<section id="bolos" data-aos="fade-up">
+  <h2>Bolos de Pote</h2>
+  <div class="lista-produtos">
+    <div class="produto" data-nome="Bolo de Maracujá" data-preco="9.00">
+      <img src="imagens/bolo-maracuja.jpg" alt="Bolo de Maracujá" />
+      <div class="produto-info">
+        <h3>Bolo de Maracujá</h3>
+        <p>R$ 9,00</p>
+        <label>Quantidade: 
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+
+    <div class="produto" data-nome="Bolo de Brigadeiro com Morango" data-preco="9.00">
+      <img src="imagens/bolo-brigadeiro-morango.jpg" alt="Bolo de Brigadeiro com Morango" />
+      <div class="produto-info">
+        <h3>Bolo de Brigadeiro com Morango</h3>
+        <p>R$ 9,00</p>
+        <label>Quantidade: 
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+
+    <div class="produto" data-nome="Bolo de Brigadeiro" data-preco="9.00">
+      <img src="imagens/bolo-brigadeiro.jpg" alt="Bolo de Brigadeiro" />
+      <div class="produto-info">
+        <h3>Bolo de Brigadeiro</h3>
+        <p>R$ 9,00</p>
+        <label>Quantidade: 
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+
+    <div class="produto" data-nome="Bolo Ninho com Morango" data-preco="9.00">
+      <img src="imagens/bolo-ninho-morango.jpg" alt="Bolo Ninho com Morango" />
+      <div class="produto-info">
+        <h3>Bolo Ninho com Morango</h3>
+        <p>R$ 9,00</p>
+        <label>Quantidade: 
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+
+    <div class="produto" data-nome="Bolo Creme de Abacaxi" data-preco="9.00">
+      <img src="imagens/bolo-creme-abacaxi.jpg" alt="Bolo Creme de Abacaxi" />
+      <div class="produto-info">
+        <h3>Bolo Creme de Abacaxi</h3>
+        <p>R$ 9,00</p>
+        <label>Quantidade: 
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+
+    <div class="produto" data-nome="Bolo Prestigio" data-preco="9.00">
+      <img src="imagens/bolo-prestigio.jpg" alt="Bolo Prestigio" />
+      <div class="produto-info">
+        <h3>Bolo Prestigio</h3>
+        <p>R$ 9,00</p>
+        <label>Quantidade: 
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Seção Mini Vulcões -->
+<section id="vulcoes" data-aos="fade-up">
+  <h2>Mini Vulcões</h2>
+  <div class="lista-produtos">
+    <div class="produto" data-nome="Mini Vulcão Cenoura com Chocolate" data-preco="15.00">
+      <img src="imagens/vulcao-cenoura.jpg" alt="Mini Vulcão Cenoura com Chocolate" />
+      <div class="produto-info">
+        <h3>Mini Vulcão Cenoura com Chocolate</h3>
+        <p>R$ 15,00</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+    <div class="produto" data-nome="Mini Vulcão Choconinho" data-preco="15.00">
+      <img src="imagens/mini_vulcao.jpg" alt="Mini Vulcão Choconinho" />
+      <div class="produto-info">
+        <h3>Mini Vulcão Choconinho</h3>
+        <p>R$ 15,00</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+    <div class="produto" data-nome="Mini Vulcão Chocolate" data-preco="15.00">
+      <img src="imagens/mini_vulcao_chocolate.jpg" alt="Mini Vulcão Chocolate" />
+      <div class="produto-info">
+        <h3>Mini Vulcão Chocolate</h3>
+        <p>R$ 15,00</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Seção Trufas -->
+<section id="trufas" data-aos="fade-up">
+  <h2>Trufas</h2>
+  <div class="lista-produtos">
+    <div class="produto" data-nome="Trufa" data-preco="3.00">
+      <img src="imagens/trufa.jpg" alt="Trufas" />
+      <div class="produto-info">
+        <h3>Trufas</h3>
+        <p>R$ 3,00</p>
+
+        <!-- Seletor de sabor -->
+        <label>Sabor:
+          <select class="sabor-trufa">
+            <option value="Prestígio">Prestígio</option>
+            <option value="Limão">Limão</option>
+            <option value="Brigadeiro com Ninho">Brigadeiro com Ninho</option>
+            <option value="Oreo">Oreo</option>
+            <option value="Maracujá">Maracujá</option>
+          </select>
+        </label>
+
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Seção Copos da Felicidade -->
+<section id="copos" data-aos="fade-up">
+  <h2>Copos da Felicidade</h2>
+  <div class="lista-produtos">
+    <div class="produto" data-nome="Copo da Felicidade Morango ninho e chocolate" data-preco="17.00">
+      <img src="imagens/copo-morango.jpg" alt="Copo da Felicidade" />
+      <div class="produto-info">
+        <h3>Copo da Felicidade Morango ninho e chocolate</h3>
+        <p>R$ 17,00</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+    <div class="lista-produtos">
+    <div class="produto" data-nome="Copo da felicidade de uva,ninho e chocolate." data-preco="17.00">
+      <img src="imagens/Copo_da_felicidade_de_uva_ninho_e_chocolate.jpg" alt="Copo da Felicidade" />
+      <div class="produto-info">
+        <h3>Copo da felicidade de uva,ninho e chocolate.</h3>
+        <p>R$ 17,00</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+  </div>
+    </div>
+  <div class="lista-produtos">
+    <div class="produto" data-nome="Copo da felicidade de maracujá brownie e chocolate" data-preco="17.00">
+      <img src="imagens/Copo_da_felicidade_de_maracujá_brownie_e_chocolate.jpg" alt="Copo da Felicidade" />
+      <div class="produto-info">
+        <h3>Copo da felicidade de maracujá brownie e chocolate </h3>
+        <p>R$ 17,00</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+    <div class="lista-produtos">
+    <div class="produto" data-nome="Copo da felicidade de Brigadeiro e brownie" data-preco="17.00">
+      <img src="imagens/Brigadeiro_e_brownie.jpg" alt="Copo da Felicidade" />
+      <div class="produto-info">
+        <h3>Copo da felicidade de Brigadeiro e brownie</h3>
+        <p>R$ 17,00</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+  </div>
+</section>
+
+<!-- Seção Pudim -->
+<section id="pudim" data-aos="fade-up">
+  <h2>Pudim</h2>
+  <div class="lista-produtos">
+    <div class="produto" data-nome="Pudim Tradicional" data-preco="7.00">
+      <img src="imagens/pudim.jpg" alt="Pudim" />
+      <div class="produto-info">
+        <h3>Pudim Tradicional</h3>
+        <p>R$ 7,00</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Seção Bombom de Uva -->
+<section id="bombom" data-aos="fade-up">
+  <h2>Bombom de Uva</h2>
+  <div class="lista-produtos">
+    <div class="produto" data-nome="Bombom de Uva" data-preco="7.00">
+      <img src="imagens/bombom_de_uva.jpg" alt="Bombom de Uva" />
+      <div class="produto-info">
+        <h3>Bombom de Uva</h3>
+        <p>R$ 7,00</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Seção Torta -->
+<section id="torta" data-aos="fade-up">
+  <h2>Torta</h2>
+  <div class="lista-produtos">
+    <div class="produto" data-nome="torta" data-preco="17.00">
+      <img src="imagens/Torta_de_Frango.jpg" alt="Torta " />
+      <div class="produto-info">
+        <h3>Torta de Frango</h3>
+        <p>R$ 12,50</p>
+        <label>Quantidade:
+          <input type="number" min="0" value="0" class="quantidade" />
+        </label>
+        <button class="btn-adicionar">Adicionar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sidebar lateral para o carrinho -->
+<div id="sidebar-carrinho">
+  <button id="btn-fechar-sidebar" title="Fechar carrinho">&times; Fechar</button>
+  <h3>Seu Pedido</h3>
+  <div id="lista-itens-carrinho"><ul></ul></div>
+
+  <div class="campo-extra">
+    <label for="modo-entrega">Modo de Entrega:</label>
+    <select id="modo-entrega">
+      <option value="" disabled selected>Selecione</option>
+      <option value="Entrega">Entrega</option>
+      <option value="Retirada">Retirada</option>
+    </select>
+  </div>
+
+  <div class="campo-extra" id="campo-endereco" style="display: none;">
+    <label for="endereco-entrega">Endereço para Entrega:</label>
+    <input type="text" id="endereco-entrega" placeholder="Rua, número, bairro" />
+  </div>
+
+  <div class="campo-extra" id="campo-pagamento">
+    <label for="modo-pagamento">Forma de Pagamento:</label>
+    <select id="modo-pagamento">
+      <option value="" disabled selected>Selecione a forma de pagamento</option>
+      <option value="Pix">Pix</option>
+      <option value="Débito">Débito</option>
+      <option value="Crédito">Crédito</option>
+    </select>
+  </div>
+
+  <div id="total-carrinho">Total: R$ 0,00</div>
+  <button id="btn-enviar-pedido">Enviar Pedido pelo WhatsApp</button>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+
+  const taxaEntrega = 0;
+  const sidebarCarrinho = document.getElementById('sidebar-carrinho');
+  const listaItens = document.querySelector('#lista-itens-carrinho ul');
+  const totalCarrinhoEl = document.getElementById('total-carrinho');
+  const btnEnviarPedido = document.getElementById('btn-enviar-pedido');
+  const modoEntregaSelect = document.getElementById('modo-entrega');
+  const campoEndereco = document.getElementById('campo-endereco');
+  const inputEndereco = document.getElementById('endereco-entrega');
+  const btnFecharSidebar = document.getElementById('btn-fechar-sidebar');
+  let carrinho = [];
+
+  function atualizarCarrinho() {
+    listaItens.innerHTML = '';
+
+    if (carrinho.length === 0) {
+      listaItens.innerHTML = '<li>O carrinho está vazio.</li>';
+      totalCarrinhoEl.textContent = 'Total: R$ 0,00';
+      sidebarCarrinho.style.display = 'none';
+      return;
+    }
+
+    sidebarCarrinho.style.display = 'flex';
+    let total = 0;
+
+    carrinho.forEach((item, index) => {
+      const li = document.createElement('li');
+      li.textContent = `${item.quantidade}x ${item.nome} - R$ ${(item.preco * item.quantidade).toFixed(2)}`;
+
+      const btnRemover = document.createElement('button');
+      btnRemover.textContent = '×';
+      btnRemover.onclick = () => {
+        carrinho.splice(index, 1);
+        atualizarCarrinho();
+      };
+
+      li.appendChild(btnRemover);
+      listaItens.appendChild(li);
+      total += item.preco * item.quantidade;
+    });
+
+    if (modoEntregaSelect.value === 'Entrega') total += taxaEntrega;
+    totalCarrinhoEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+  }
+
+  function validarPedido() {
+    if (carrinho.length === 0) {
+      alert('Seu carrinho está vazio!');
+      return false;
+    }
+    if (modoEntregaSelect.value === 'Entrega' && inputEndereco.value.trim() === '') {
+      alert('Por favor, informe o endereço para entrega.');
+      return false;
+    }
+    return true;
+  }
+
+  btnEnviarPedido.addEventListener('click', () => {
+  if (!validarPedido()) return;
+
+  const formaPagamento = document.getElementById('modo-pagamento').value;
+  const modoEntrega = modoEntregaSelect.value;
+  const endereco = inputEndereco.value.trim();
+
+  let mensagem = 'Olá, gostaria de fazer o pedido:\n';
+  carrinho.forEach(item => {
+    mensagem += `- ${item.quantidade}x ${item.nome}\n`;
+  });
+
+  mensagem += `\nModo de entrega: ${modoEntrega}`;
+
+  if (modoEntrega === 'Entrega') {
+    mensagem += `\nEndereço: ${endereco}`;
+    mensagem += `\nTaxa de entrega: R$ ${taxaEntrega.toFixed(2)}`;
+  }
+
+  mensagem += `\nForma de pagamento: ${formaPagamento}`;
+
+  let total = carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+  if (modoEntrega === 'Entrega') total += taxaEntrega;
+
+  mensagem += `\nTotal: R$ ${total.toFixed(2)}\n\nObrigado!`;
+
+  const telefone = '5511930432165';
+  const urlWhats = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+  window.open(urlWhats, '_blank');
+});
+  modoEntregaSelect.addEventListener('change', () => {
+    if (modoEntregaSelect.value === 'Entrega') {
+      campoEndereco.style.display = 'block';
+      inputEndereco.setAttribute('required', 'required');
+    } else {
+      campoEndereco.style.display = 'none';
+      inputEndereco.removeAttribute('required');
+      inputEndereco.value = '';
+    }
+    atualizarCarrinho();
+  });
+
+  btnFecharSidebar.addEventListener('click', () => {
+    sidebarCarrinho.style.display = 'none';
+  });
+
+  function adicionarAoCarrinho(nome, preco, quantidade) {
+    const itemExistente = carrinho.find(i => i.nome === nome);
+    if (itemExistente) {
+      itemExistente.quantidade += quantidade;
+    } else {
+      carrinho.push({ nome, preco, quantidade });
+    }
+  }
+
+  document.querySelectorAll('.btn-adicionar').forEach(botao => {
+    botao.addEventListener('click', (e) => {
+      const botao = e.target;
+      const produto = botao.closest('.produto');
+      let nome = produto.dataset.nome;
+      const preco = parseFloat(produto.dataset.preco);
+      const inputQtd = produto.querySelector('input.quantidade');
+      const quantidade = parseInt(inputQtd.value);
+
+      if (!quantidade || quantidade <= 0) {
+        alert('Informe uma quantidade válida para adicionar.');
+        return;
+      }
+
+      const selectSabor = produto.querySelector('.sabor-trufa');
+      if (selectSabor) nome += ` (${selectSabor.value})`;
+
+      adicionarAoCarrinho(nome, preco, quantidade);
+      inputQtd.value = 0;
+      atualizarCarrinho();
+
+      const msg = document.createElement('div');
+      msg.textContent = 'Adicionado!';
+      msg.style.color = '#d6336c';
+      msg.style.fontSize = '0.85rem';
+      msg.style.marginTop = '5px';
+      msg.style.transition = 'opacity 0.5s ease';
+      botao.after(msg);
+      setTimeout(() => {
+        msg.style.opacity = 0;
+        setTimeout(() => msg.remove(), 500);
+      }, 1200);
+    });
+  });
+</script>
+<a href="index.html" class="btn-voltar-index">← Voltar para a página inicial</a>
+
+</body>
+</html>
