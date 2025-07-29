@@ -316,7 +316,21 @@
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
       }
+   #resumo-pedido, #resumo {
+    max-height: 300px;
+    overflow-y: auto;
+    word-break: break-word;
+  }
+
+  @media (max-width: 768px) {
+    #resumo-pedido, #resumo {
+      font-size: 16px;
+      padding: 10px;
+      background: #fff;
+      border-radius: 10px;
     }
+  }
+}
   </style>
 </head>
 <body>
@@ -342,11 +356,11 @@
 <section id="bolos" data-aos="fade-up">
   <h2>Bolos de Pote</h2>
   <div class="lista-produtos">
-    <div class="produto" data-nome="Bolo de Maracujá" data-preco="9.00">
+    <div class="produto" data-nome="Bolo de Maracujá" data-preco="10.00">
       <img src="imagens/bolo-maracuja.jpg" alt="Bolo de Maracujá" />
       <div class="produto-info">
         <h3>Bolo de Maracujá</h3>
-        <p>R$ 9,00</p>
+        <p>R$ 10,00</p>
         <label>Quantidade: 
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -354,11 +368,11 @@
       </div>
     </div>
 
-    <div class="produto" data-nome="Bolo de Brigadeiro com Morango" data-preco="9.00">
+    <div class="produto" data-nome="Bolo de Brigadeiro com Morango" data-preco="10.00">
       <img src="imagens/bolo-brigadeiro-morango.jpg" alt="Bolo de Brigadeiro com Morango" />
       <div class="produto-info">
         <h3>Bolo de Brigadeiro com Morango</h3>
-        <p>R$ 9,00</p>
+        <p>R$ 10,00</p>
         <label>Quantidade: 
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -366,11 +380,11 @@
       </div>
     </div>
 
-    <div class="produto" data-nome="Bolo de Brigadeiro" data-preco="9.00">
+    <div class="produto" data-nome="Bolo de Brigadeiro" data-preco="10.00">
       <img src="imagens/bolo-brigadeiro.jpg" alt="Bolo de Brigadeiro" />
       <div class="produto-info">
         <h3>Bolo de Brigadeiro</h3>
-        <p>R$ 9,00</p>
+        <p>R$ 10,00</p>
         <label>Quantidade: 
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -378,11 +392,11 @@
       </div>
     </div>
 
-    <div class="produto" data-nome="Bolo Ninho com Morango" data-preco="9.00">
+    <div class="produto" data-nome="Bolo Ninho com Morango" data-preco="10.00">
       <img src="imagens/bolo-ninho-morango.jpg" alt="Bolo Ninho com Morango" />
       <div class="produto-info">
         <h3>Bolo Ninho com Morango</h3>
-        <p>R$ 9,00</p>
+        <p>R$ 10,00</p>
         <label>Quantidade: 
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -390,11 +404,11 @@
       </div>
     </div>
 
-    <div class="produto" data-nome="Bolo Creme de Abacaxi" data-preco="9.00">
+    <div class="produto" data-nome="Bolo Creme de Abacaxi" data-preco="10.00">
       <img src="imagens/bolo-creme-abacaxi.jpg" alt="Bolo Creme de Abacaxi" />
       <div class="produto-info">
         <h3>Bolo Creme de Abacaxi</h3>
-        <p>R$ 9,00</p>
+        <p>R$ 10,00</p>
         <label>Quantidade: 
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -402,11 +416,11 @@
       </div>
     </div>
 
-    <div class="produto" data-nome="Bolo Prestigio" data-preco="9.00">
+    <div class="produto" data-nome="Bolo Prestigio" data-preco="10.00">
       <img src="imagens/bolo-prestigio.jpg" alt="Bolo Prestigio" />
       <div class="produto-info">
         <h3>Bolo Prestigio</h3>
-        <p>R$ 9,00</p>
+        <p>R$ 10,00</p>
         <label>Quantidade: 
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -489,11 +503,11 @@
 <section id="copos" data-aos="fade-up">
   <h2>Copos da Felicidade</h2>
   <div class="lista-produtos">
-    <div class="produto" data-nome="Copo da Felicidade Morango ninho e chocolate" data-preco="17.00">
+    <div class="produto" data-nome="Copo da Felicidade Morango ninho e chocolate" data-preco="22.00">
       <img src="imagens/copo-morango.jpg" alt="Copo da Felicidade" />
       <div class="produto-info">
         <h3>Copo da Felicidade Morango ninho e chocolate</h3>
-        <p>R$ 17,00</p>
+        <p>R$ 22,00</p>
         <label>Quantidade:
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -501,11 +515,11 @@
       </div>
     </div>
     <div class="lista-produtos">
-    <div class="produto" data-nome="Copo da felicidade de uva,ninho e chocolate." data-preco="17.00">
+    <div class="produto" data-nome="Copo da felicidade de uva,ninho e chocolate." data-preco="22.00">
       <img src="imagens/Copo_da_felicidade_de_uva_ninho_e_chocolate.jpg" alt="Copo da Felicidade" />
       <div class="produto-info">
         <h3>Copo da felicidade de uva,ninho e chocolate.</h3>
-        <p>R$ 17,00</p>
+        <p>R$ 22,00</p>
         <label>Quantidade:
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -513,11 +527,11 @@
   </div>
     </div>
   <div class="lista-produtos">
-    <div class="produto" data-nome="Copo da felicidade de maracujá brownie e chocolate" data-preco="17.00">
+    <div class="produto" data-nome="Copo da felicidade de maracujá brownie e chocolate" data-preco="22.00">
       <img src="imagens/Copo_da_felicidade_de_maracujá_brownie_e_chocolate.jpg" alt="Copo da Felicidade" />
       <div class="produto-info">
         <h3>Copo da felicidade de maracujá brownie e chocolate </h3>
-        <p>R$ 17,00</p>
+        <p>R$ 22,00</p>
         <label>Quantidade:
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -525,11 +539,11 @@
       </div>
     </div>
     <div class="lista-produtos">
-    <div class="produto" data-nome="Copo da felicidade de Brigadeiro e brownie" data-preco="17.00">
+    <div class="produto" data-nome="Copo da felicidade de Brigadeiro e brownie" data-preco="22.00">
       <img src="imagens/Brigadeiro_e_brownie.jpg" alt="Copo da Felicidade" />
       <div class="produto-info">
         <h3>Copo da felicidade de Brigadeiro e brownie</h3>
-        <p>R$ 17,00</p>
+        <p>R$ 22,00</p>
         <label>Quantidade:
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -542,11 +556,11 @@
 <section id="pudim" data-aos="fade-up">
   <h2>Pudim</h2>
   <div class="lista-produtos">
-    <div class="produto" data-nome="Pudim Tradicional" data-preco="7.00">
+    <div class="produto" data-nome="Pudim Tradicional" data-preco="7.50">
       <img src="imagens/pudim.jpg" alt="Pudim" />
       <div class="produto-info">
         <h3>Pudim Tradicional</h3>
-        <p>R$ 7,00</p>
+        <p>R$ 7,50</p>
         <label>Quantidade:
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -560,11 +574,11 @@
 <section id="bombom" data-aos="fade-up">
   <h2>Bombom de Uva</h2>
   <div class="lista-produtos">
-    <div class="produto" data-nome="Bombom de Uva" data-preco="7.00">
+    <div class="produto" data-nome="Bombom de Uva" data-preco="8.00">
       <img src="imagens/bombom_de_uva.jpg" alt="Bombom de Uva" />
       <div class="produto-info">
         <h3>Bombom de Uva</h3>
-        <p>R$ 7,00</p>
+        <p>R$ 8,00</p>
         <label>Quantidade:
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -578,11 +592,11 @@
 <section id="torta" data-aos="fade-up">
   <h2>Torta</h2>
   <div class="lista-produtos">
-    <div class="produto" data-nome="torta" data-preco="17.00">
+    <div class="produto" data-nome="torta" data-preco="13.50">
       <img src="imagens/Torta_de_Frango.jpg" alt="Torta " />
       <div class="produto-info">
         <h3>Torta de Frango</h3>
-        <p>R$ 12,50</p>
+        <p>R$ 13,50</p>
         <label>Quantidade:
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -641,6 +655,12 @@
   const btnFecharSidebar = document.getElementById('btn-fechar-sidebar');
   let carrinho = [];
 
+  // ⛔ FUNÇÃO removerItem DEVE ESTAR NO ESCOPO GLOBAL
+  function removerItem(index) {
+    carrinho.splice(index, 1);
+    atualizarCarrinho();
+  }
+
   function atualizarCarrinho() {
     listaItens.innerHTML = '';
 
@@ -651,21 +671,21 @@
       return;
     }
 
-    sidebarCarrinho.style.display = 'flex';
+    sidebarCarrinho.style.display = 'flex'; // 🔄 Mostra o carrinho
     let total = 0;
 
     carrinho.forEach((item, index) => {
       const li = document.createElement('li');
-      li.textContent = `${item.quantidade}x ${item.nome} - R$ ${(item.preco * item.quantidade).toFixed(2)}`;
-
-      const btnRemover = document.createElement('button');
-      btnRemover.textContent = '×';
-      btnRemover.onclick = () => {
-        carrinho.splice(index, 1);
-        atualizarCarrinho();
-      };
-
-      li.appendChild(btnRemover);
+      li.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1 1 70%;">
+            <strong>${item.nome}</strong><br>
+            Quantidade: ${item.quantidade}<br>
+            Valor: R$ ${(item.preco * item.quantidade).toFixed(2)}
+          </div>
+          <button style="flex: 0 0 auto; background: transparent; border: none; font-size: 20px; color: red; cursor: pointer;" onclick="removerItem(${index})">×</button>
+        </div>
+      `;
       listaItens.appendChild(li);
       total += item.preco * item.quantidade;
     });
@@ -687,35 +707,36 @@
   }
 
   btnEnviarPedido.addEventListener('click', () => {
-  if (!validarPedido()) return;
+    if (!validarPedido()) return;
 
-  const formaPagamento = document.getElementById('modo-pagamento').value;
-  const modoEntrega = modoEntregaSelect.value;
-  const endereco = inputEndereco.value.trim();
+    const formaPagamento = document.getElementById('modo-pagamento').value;
+    const modoEntrega = modoEntregaSelect.value;
+    const endereco = inputEndereco.value.trim();
 
-  let mensagem = 'Olá, gostaria de fazer o pedido:\n';
-  carrinho.forEach(item => {
-    mensagem += `- ${item.quantidade}x ${item.nome}\n`;
+    let mensagem = 'Olá, gostaria de fazer o pedido:\n';
+    carrinho.forEach(item => {
+      mensagem += `- ${item.quantidade}x ${item.nome}\n`;
+    });
+
+    mensagem += `\nModo de entrega: ${modoEntrega}`;
+
+    if (modoEntrega === 'Entrega') {
+      mensagem += `\nEndereço: ${endereco}`;
+      mensagem += `\nTaxa de entrega: R$ ${taxaEntrega.toFixed(2)}`;
+    }
+
+    mensagem += `\nForma de pagamento: ${formaPagamento}`;
+
+    let total = carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+    if (modoEntrega === 'Entrega') total += taxaEntrega;
+
+    mensagem += `\nTotal: R$ ${total.toFixed(2)}\n\nObrigado!`;
+
+    const telefone = '5511930432165';
+    const urlWhats = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+    window.open(urlWhats, '_blank');
   });
 
-  mensagem += `\nModo de entrega: ${modoEntrega}`;
-
-  if (modoEntrega === 'Entrega') {
-    mensagem += `\nEndereço: ${endereco}`;
-    mensagem += `\nTaxa de entrega: R$ ${taxaEntrega.toFixed(2)}`;
-  }
-
-  mensagem += `\nForma de pagamento: ${formaPagamento}`;
-
-  let total = carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
-  if (modoEntrega === 'Entrega') total += taxaEntrega;
-
-  mensagem += `\nTotal: R$ ${total.toFixed(2)}\n\nObrigado!`;
-
-  const telefone = '5511930432165';
-  const urlWhats = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
-  window.open(urlWhats, '_blank');
-});
   modoEntregaSelect.addEventListener('change', () => {
     if (modoEntregaSelect.value === 'Entrega') {
       campoEndereco.style.display = 'block';
@@ -739,6 +760,8 @@
     } else {
       carrinho.push({ nome, preco, quantidade });
     }
+
+    atualizarCarrinho(); // ✅ Garante que o carrinho seja atualizado ao adicionar
   }
 
   document.querySelectorAll('.btn-adicionar').forEach(botao => {
@@ -760,7 +783,6 @@
 
       adicionarAoCarrinho(nome, preco, quantidade);
       inputQtd.value = 0;
-      atualizarCarrinho();
 
       const msg = document.createElement('div');
       msg.textContent = 'Adicionado!';
