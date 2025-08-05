@@ -592,11 +592,11 @@
 <section id="torta" data-aos="fade-up">
   <h2>Torta</h2>
   <div class="lista-produtos">
-    <div class="produto" data-nome="torta" data-preco="13.50">
+    <div class="produto" data-nome="torta" data-preco="15.00">
       <img src="imagens/Torta_de_Frango.jpg" alt="Torta " />
       <div class="produto-info">
         <h3>Torta de Frango</h3>
-        <p>R$ 13,50</p>
+        <p>R$ 15,00</p>
         <label>Quantidade:
           <input type="number" min="0" value="0" class="quantidade" />
         </label>
@@ -606,7 +606,7 @@
   </div>
 </section>
 
-<!-- Sidebar lateral para o carrinho -->
+<!-- Sidebar lateral para o carrinho --> 
 <div id="sidebar-carrinho">
   <button id="btn-fechar-sidebar" title="Fechar carrinho">&times; Fechar</button>
   <h3>Seu Pedido</h3>
@@ -637,6 +637,10 @@
   </div>
 
   <div id="total-carrinho">Total: R$ 0,00</div>
+
+  <!-- mensagem de erro do mínimo de entrega -->
+  <div id="erro-minimo" style="color: #b02c55; background: #ffe6f0; padding: 8px; border-radius: 8px; margin-bottom: 8px; display: none; font-size: 0.9rem;"></div>
+
   <button id="btn-enviar-pedido">Enviar Pedido pelo WhatsApp</button>
 </div>
 
@@ -644,6 +648,7 @@
 <script>
   AOS.init();
 
+   const minimoEntrega = 20.00; // mínimo para entrega
   const taxaEntrega = 0;
   const sidebarCarrinho = document.getElementById('sidebar-carrinho');
   const listaItens = document.querySelector('#lista-itens-carrinho ul');
@@ -652,10 +657,50 @@
   const modoEntregaSelect = document.getElementById('modo-entrega');
   const campoEndereco = document.getElementById('campo-endereco');
   const inputEndereco = document.getElementById('endereco-entrega');
+  const modoPagamentoSelect = document.getElementById('modo-pagamento');
   const btnFecharSidebar = document.getElementById('btn-fechar-sidebar');
+  const erroMinimoEl = document.getElementById('erro-minimo');
   let carrinho = [];
 
-  // ⛔ FUNÇÃO removerItem DEVE ESTAR NO ESCOPO GLOBAL
+  // utilitários
+  function calcularSubtotal() {
+    return carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+  }
+
+  function formatarReais(valor) {
+    return valor.toFixed(2).replace('.', ',');
+  }
+
+  function validarMinimoEAtualizarUI() {
+    const subtotal = calcularSubtotal();
+    if (modoEntregaSelect.value === 'Entrega') {
+      if (subtotal < minimoEntrega) {
+        erroMinimoEl.style.display = 'block';
+        erroMinimoEl.textContent = `Para entrega, o pedido mínimo é de R$ ${formatarReais(minimoEntrega)}. Subtotal atual: R$ ${formatarReais(subtotal)}.`;
+        return false;
+      } else {
+        erroMinimoEl.style.display = 'none';
+        erroMinimoEl.textContent = '';
+        return true;
+      }
+    } else {
+      erroMinimoEl.style.display = 'none';
+      erroMinimoEl.textContent = '';
+      return true;
+    }
+  }
+
+  function atualizarBotao() {
+    const podeEntrega = modoEntregaSelect.value === 'Entrega' ? validarMinimoEAtualizarUI() : true;
+    const vazio = carrinho.length === 0;
+    const formaSelecionada = !!modoEntregaSelect.value;
+    const pagamentoSelecionado = !!modoPagamentoSelect.value;
+    btnEnviarPedido.disabled = vazio || !formaSelecionada || !pagamentoSelecionado || !podeEntrega;
+    btnEnviarPedido.style.opacity = btnEnviarPedido.disabled ? '0.6' : '1';
+    btnEnviarPedido.style.cursor = btnEnviarPedido.disabled ? 'not-allowed' : 'pointer';
+  }
+
+  // funções principais
   function removerItem(index) {
     carrinho.splice(index, 1);
     atualizarCarrinho();
@@ -668,11 +713,15 @@
       listaItens.innerHTML = '<li>O carrinho está vazio.</li>';
       totalCarrinhoEl.textContent = 'Total: R$ 0,00';
       sidebarCarrinho.style.display = 'none';
+      atualizarBotao();
       return;
     }
 
-    sidebarCarrinho.style.display = 'flex'; // 🔄 Mostra o carrinho
-    let total = 0;
+    sidebarCarrinho.style.display = 'flex';
+    let subtotal = calcularSubtotal();
+    let total = subtotal;
+    if (modoEntregaSelect.value === 'Entrega') total += taxaEntrega;
+    totalCarrinhoEl.textContent = `Total: R$ ${formatarReais(total)}`;
 
     carrinho.forEach((item, index) => {
       const li = document.createElement('li');
@@ -681,17 +730,16 @@
           <div style="flex: 1 1 70%;">
             <strong>${item.nome}</strong><br>
             Quantidade: ${item.quantidade}<br>
-            Valor: R$ ${(item.preco * item.quantidade).toFixed(2)}
+            Valor: R$ ${formatarReais(item.preco * item.quantidade)}
           </div>
           <button style="flex: 0 0 auto; background: transparent; border: none; font-size: 20px; color: red; cursor: pointer;" onclick="removerItem(${index})">×</button>
         </div>
       `;
       listaItens.appendChild(li);
-      total += item.preco * item.quantidade;
     });
 
-    if (modoEntregaSelect.value === 'Entrega') total += taxaEntrega;
-    totalCarrinhoEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+    validarMinimoEAtualizarUI();
+    atualizarBotao();
   }
 
   function validarPedido() {
@@ -699,17 +747,47 @@
       alert('Seu carrinho está vazio!');
       return false;
     }
-    if (modoEntregaSelect.value === 'Entrega' && inputEndereco.value.trim() === '') {
-      alert('Por favor, informe o endereço para entrega.');
+    if (!modoEntregaSelect.value) {
+      alert('Selecione o modo de entrega.');
+      return false;
+    }
+    if (modoEntregaSelect.value === 'Entrega') {
+      if (inputEndereco.value.trim() === '') {
+        alert('Por favor, informe o endereço para entrega.');
+        return false;
+      }
+      if (!validarMinimoEAtualizarUI()) {
+        return false;
+      }
+    }
+    if (!modoPagamentoSelect.value) {
+      alert('Selecione a forma de pagamento.');
       return false;
     }
     return true;
   }
 
+  // eventos
+  modoEntregaSelect.addEventListener('change', () => {
+    if (modoEntregaSelect.value === 'Entrega') {
+      campoEndereco.style.display = 'block';
+      inputEndereco.setAttribute('required', 'required');
+    } else {
+      campoEndereco.style.display = 'none';
+      inputEndereco.removeAttribute('required');
+      inputEndereco.value = '';
+    }
+    atualizarCarrinho();
+  });
+
+  modoPagamentoSelect.addEventListener('change', () => {
+    atualizarBotao();
+  });
+
   btnEnviarPedido.addEventListener('click', () => {
     if (!validarPedido()) return;
 
-    const formaPagamento = document.getElementById('modo-pagamento').value;
+    const formaPagamento = modoPagamentoSelect.value;
     const modoEntrega = modoEntregaSelect.value;
     const endereco = inputEndereco.value.trim();
 
@@ -722,31 +800,18 @@
 
     if (modoEntrega === 'Entrega') {
       mensagem += `\nEndereço: ${endereco}`;
-      mensagem += `\nTaxa de entrega: R$ ${taxaEntrega.toFixed(2)}`;
+      mensagem += `\nTaxa de entrega: R$ ${formatarReais(taxaEntrega)}`;
     }
 
     mensagem += `\nForma de pagamento: ${formaPagamento}`;
 
-    let total = carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+    let total = calcularSubtotal();
     if (modoEntrega === 'Entrega') total += taxaEntrega;
-
-    mensagem += `\nTotal: R$ ${total.toFixed(2)}\n\nObrigado!`;
+    mensagem += `\nTotal: R$ ${formatarReais(total)}\n\nObrigado!`;
 
     const telefone = '5511930432165';
     const urlWhats = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
     window.open(urlWhats, '_blank');
-  });
-
-  modoEntregaSelect.addEventListener('change', () => {
-    if (modoEntregaSelect.value === 'Entrega') {
-      campoEndereco.style.display = 'block';
-      inputEndereco.setAttribute('required', 'required');
-    } else {
-      campoEndereco.style.display = 'none';
-      inputEndereco.removeAttribute('required');
-      inputEndereco.value = '';
-    }
-    atualizarCarrinho();
   });
 
   btnFecharSidebar.addEventListener('click', () => {
@@ -760,8 +825,7 @@
     } else {
       carrinho.push({ nome, preco, quantidade });
     }
-
-    atualizarCarrinho(); // ✅ Garante que o carrinho seja atualizado ao adicionar
+    atualizarCarrinho();
   }
 
   document.querySelectorAll('.btn-adicionar').forEach(botao => {
